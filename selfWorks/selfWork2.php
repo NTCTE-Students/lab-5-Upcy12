@@ -7,14 +7,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     $errors = [];
 
+    // проверка формата введенного поля
     if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
         $errors[] = 'не правильный формат электронной почты!';
     }
 
+    // проверка ввода нужного количества символов
     if(strlen($message)<10){
         $errors[] = 'Сообщение должно содеожать не менее 10-и символов!';
     }
-
+// вывод сообщения или ошибки
     if (empty($errors)) {
         $name = htmlspecialchars($name);
         $email = htmlspecialchars($email);

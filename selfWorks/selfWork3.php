@@ -6,12 +6,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     $errors = [];
 
+    // ПРОВЕРКА ПРАВИЛЬНОСТИ ВВОДА
     if(strlen($name) < 4){
         $errors[] = 'Слишком маленькое имя';
     }else if (!preg_match("/^[a-zA-Z ]*$/", $name)){
         $errors[] = "имя должно состоять только из латиницы";
     }
-
+    // вывод ошибки или сообщения
     if (empty($errors)) {
         $name = htmlspecialchars($name);
         $password = htmlspecialchars($password);

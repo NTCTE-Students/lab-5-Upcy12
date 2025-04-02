@@ -5,10 +5,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     $errors = [];
 
+    // проверка заполнения данными
     if(empty($email)){
         $errors[] = 'Необходимо ввести эл. почту';
     }
-
+    // ВЫВОД ОШИБКИ ИЛИ СООБЩЕНИЯ
     if (empty($errors)) {
         $email = htmlspecialchars($email);
         

@@ -2,29 +2,30 @@
 
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $name = trim($_POST['name']);
-    $booking_date = trim($_POST['booking_date']);
-    $booking_time = trim($_POST['Booking_time']);
+    $name = htmlspecialchars(trim($_POST['name']));
+    $booking_date = htmlspecialchars(trim($_POST['booking_date']));
+    $booking_time = htmlspecialchars($_POST['booking_time']);
 
     $errors = [];
 
-    if(intval($booking_date[0] . $booking_date[1] . $booking_date[2] . $booking_date[3]) >= intval(date('Y'))){
-        if(intval($booking_date[5] . $booking_date[6]) >= intval(date('m'))){
-            if(intval($booking_date[8] . $booking_date[9]) >= intval(date('d'))){
-                print($booking_time . '<br>');
-                print(time());
-            }
-            else {
-                $errors[] = 'День введен некорректно';
-            };
-        }
-        else{
-            $errors[] = 'Месяц введен некорректно'; 
-        }
-    }else{
+    // проверка времени и даты
+    if(intval($booking_date[0] . $booking_date[1] . $booking_date[2] . $booking_date[3]) < intval(date('Y'))){
         $errors[] = 'Год введен некорректно';
     }
+    if(intval($booking_date[5] . $booking_date[6]) < intval(date('m')) && empty($errors)){
+        $errors[] = 'Месяц введен некорректно'; 
+    }
+    if(intval($booking_date[8] . $booking_date[9]) < intval(date('d')) && empty($errors)){
+        $errors[] = 'День введен некорректно';
+    }
+    if(intval($booking_time[0] . $booking_time[1]) < intval(date('H')) && empty($errors)){
+        $errors[] = 'Час введен некорректно';
+    }
+    if(intval($booking_time[3] . $booking_time[4]) < intval(date('i')) && empty($errors)){
+        $errors[] = 'Минута введена некорректно';
+    }
 
+    // вывод ошибки или сообщения
     if (empty($errors)) {
         print('<h1>Рассылка оформлена!</h1>');
     } else {
@@ -32,8 +33,4 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             print("<p style='color: red;'>{$error}</p>");
         }
     }
-    print($booking_date . '<br>');
-    print(date('Y-m-d'));
 }
-
-// print(date('d-M-Y'));
